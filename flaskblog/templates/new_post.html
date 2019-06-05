@@ -1,0 +1,68 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="content-section">
+		<form method="POST" action="">
+			{{ form.hidden_tag() }}
+			<fieldset class="form-group">
+				<legend class="border-bottom mb-4">{{ legend }}</legend>
+				
+				<div class ="form-group">
+					{{ form.title.label(class="form-control-label") }}
+					
+					{% if form.title.errors %}
+						{{ form.title(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.title.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.title(class="form-control form-control-lg") }}
+					{% endif %}
+					
+				</div>
+				<div class ="form-group">
+					{{ form.content.label(class="form-control-label") }}
+					{% if form.content.errors %}
+						{{ form.content(class="form-control form-control-lg is-invalid") }}
+						<div class="invalid-feedback">
+							{% for error in form.content.errors %}
+								<span>{{ error }}</span>
+							{% endfor %}
+						</div>
+					{% else %}
+						{{ form.content(class="form-control form-control-lg") }}
+					{% endif %}
+				</div>
+				
+			</fieldset>
+			<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
+			  <div class="modal-dialog" role="document">
+				<div class="modal-content">
+				  <div class="modal-header">
+					<h5 class="modal-title" id="deleteModalLabel">Warning</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+				  </div>
+				  <div class="modal-body">
+					Are you sure you want to discard this post? Any unsaved content will be lost.
+				  </div>
+				  <div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+					<a class="btn btn-danger" href="{{ url_for('main.home') }}">Discard</a>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<div class="form-group">
+				{{ form.submit(class="btn btn-outline-info") }}
+				{% if post_id %}
+					<a class="btn btn-secondary" href="{{ url_for('posts.post', post_id=post_id) }}">cancel</a>
+				{% else %}
+					<a class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">cancel</a>
+				{% endif %}
+			</div>
+		</form>
+	</div>
+{% endblock content %}
